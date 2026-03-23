@@ -1,17 +1,14 @@
-type Props = {
-  post: any;
-};
+import Media from "./Media";
 
-export default function PostCard({ post }: Props) {
+export default function PostCard({ post }: any) {
   return (
-    <div style={{ border: "1px solid #ccc", padding: "10px" }}>
-      <img
-        src={post.mediaUrl}
-        alt={post.title}
-        style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
-      />
-      <p>{post.title}</p>
-      <p>👍 {post.upvotes}</p>
+    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:scale-105 transition">
+      <Media url={post.mediaUrl} />
+
+      <div className="p-2">
+        <p className="text-sm font-medium line-clamp-2">{post.title}</p>
+        <p className="text-xs text-gray-500 mt-1">👍 {post.upvotes}</p>
+      </div>
     </div>
   );
 }

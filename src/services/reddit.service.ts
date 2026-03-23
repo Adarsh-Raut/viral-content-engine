@@ -47,7 +47,9 @@ export async function savePosts(posts: any[]) {
           source: "reddit",
           externalId: data.id,
           title: data.title,
-          mediaUrl: data.url,
+          mediaUrl: data.is_video
+            ? data.media?.reddit_video?.fallback_url
+            : data.url,
           postUrl: `https://reddit.com${data.permalink}`,
           upvotes: data.ups,
           comments: data.num_comments,
