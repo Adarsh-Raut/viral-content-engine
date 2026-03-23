@@ -1,18 +1,29 @@
+import cron from "node-cron";
 import {
   fetchRedditPosts,
   filterMediaPosts,
   savePosts,
 } from "../services/reddit.service";
 
-async function run() {
-  console.log("Fetching Reddit posts...");
+async function runJob() {
+  console.log("⏳ Running Reddit job...");
 
-  const posts = await fetchRedditPosts();
-  const filtered = filterMediaPosts(posts);
+  try {
+    const posts = await fetchRedditPosts();
+    const filtered = filterMediaPosts(posts);
 
-  await savePosts(filtered);
+    await savePosts(filtered);
 
-  console.log(`Saved ${filtered.length} posts`);
+    console.log(`✅ Saved ${filtered.length} posts`);
+  } catch (err) {
+    console.error("❌ Error in job:", err);
+  }
 }
 
-run();
+// Run every 30 minutes
+cron.schedule("*/30 * * * *", () => {
+  runJob();
+});
+
+// Run immediately on start
+runJob();
